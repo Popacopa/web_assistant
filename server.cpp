@@ -12,12 +12,23 @@
 #define WARN(x): LOGW << x << "\n";
 
 
+
+
+
+
+uint8_t hi = 0b01;
+uint8_t low = 0b00;
+
+
+
+
 int opt;
 bool logging{0};
 std::string ip_address{"127.0.0.1"};
 int port{5555};
 std::string last_request;
 int last_status;
+
 
 int main(int argc, char const *argv[])
 {
@@ -49,15 +60,13 @@ int main(int argc, char const *argv[])
                 if (last_status) {arduino.reopen();}
 
                 int status;
-                std::string hi = "1";
-                std::string low = "0";
 
                 if (req.body == "1") {
                     status = arduino.write(hi);                                  
                 } else {
                     status = arduino.write(low);
                 }
-
+                
                 res.set_content(status ? "sorry, port is not open" : req.body, "text/plain");
                 last_request = req.body;
 
@@ -66,6 +75,11 @@ int main(int argc, char const *argv[])
                                                                 LOGI << " POST " << req.body << "\t"
                                                                             << req.remote_addr << "\t" 
                                                                             << "status: " << status << "\n";
+                
+                unsigned char data = arduino.read();
+                for (int i{7}; i >= 0; --i) {
+                    std::cout << ((data >> i) & 1);
+                } std::cout << "\n";
         }
     });
     

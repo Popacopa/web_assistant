@@ -42,6 +42,30 @@ public:
         } catch (const boost::system::system_error& e) {return 1;}
     }
 
+    uint8_t read() {
+        unsigned char data;
+        if (!main_port_.is_open()) {
+            std::cerr << "Error: Port is not open." << std::endl;
+            return 1;
+        }
+        try {
+            main_port_.read_some(buffer(&data, 1));
+        } catch (const boost::system::system_error& e) {std::cout << "gg\n";}
+        return data;
+    }
+    
+
+    int write(const uint8_t data) {
+        if (!main_port_.is_open()) {
+            std::cerr << "Error: Port is not open." << std::endl;
+            return 1;
+        }
+        try {
+            main_port_.write_some(buffer(&data, 1));
+            return 0;
+        } catch (const boost::system::system_error& e) {return 1;}
+    }
+
     int reopen() {
         try {
                 main_port_.close();
