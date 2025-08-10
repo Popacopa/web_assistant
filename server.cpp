@@ -4,6 +4,7 @@
 #include "modules/ComPort.cpp"
 #include "modules/PortLst.cpp"
 #include "modules/settings.cpp"
+#include "modules/Signal.cpp"
 
 #define INFO(x): LOGI << x << "\n";
 #define ERROR(x): LOGE << x << "\n";
@@ -12,14 +13,7 @@
 #define WARN(x): LOGW << x << "\n";
 
 
-
-
-
-
-uint8_t hi = 0b01;
-uint8_t low = 0b00;
-
-
+Byte sign(0b00); // 0b00 - default value, 0b01 - high, 0b10 - low, 0b11 - error
 
 
 int opt;
@@ -62,11 +56,13 @@ int main(int argc, char const *argv[])
                 int status;
 
                 if (req.body == "1") {
-                    status = arduino.write(hi);                                  
+                    sign.setBit(0);                                  
                 } else {
-                    status = arduino.write(low);
+                    sign.clearBit(0);
                 }
                 
+                status = arduino.write(sign.get_data());
+
                 res.set_content(status ? "sorry, port is not open" : req.body, "text/plain");
                 last_request = req.body;
 

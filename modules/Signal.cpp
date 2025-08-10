@@ -3,10 +3,10 @@
 #include <cstdarg>
 
 
-class Signal {
+class Byte {
 public:
-    Signal(const uint8_t& nullSig) : _data(nullSig) {}
-    Signal() : _data(0b00) {}
+    Byte(const uint8_t& nullSig) : _data(nullSig) {}
+    Byte() : _data(0b00) {}
 
     uint8_t& get_data() noexcept {return _data;}
 
