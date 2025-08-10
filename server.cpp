@@ -56,9 +56,9 @@ int main(int argc, char const *argv[])
                 int status;
 
                 if (req.body == "1") {
-                    sign.setBit(0);                                  
+                    sign.setBit(1, 0);                                  
                 } else {
-                    sign.clearBit(0);
+                    sign.clearBit(1, 0);
                 }
                 
                 status = arduino.write(sign.get_data());
