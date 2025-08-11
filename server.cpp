@@ -13,8 +13,8 @@
 #define WARN(x): LOGW << x << "\n";
 
 
-Byte sign(0b00); // 0b00 - default value, 0b01 - high, 0b10 - low, 0b11 - error
-
+Byte arduino_request(0b00); // 0b00 - default value, 0b01 - high, 0b10 - low, 0b11 - error
+Byte arduino_response;
 
 int opt;
 bool logging{0};
@@ -56,12 +56,12 @@ int main(int argc, char const *argv[])
                 int status;
 
                 if (req.body == "1") {
-                    sign.setBit(1, 0);                                  
+                    arduino_request.setBit(1, 0);                                  
                 } else {
-                    sign.clearBit(1, 0);
+                    arduino_request.clearBit(1, 0);
                 }
                 
-                status = arduino.write(sign.get_data());
+                status = arduino.write(arduino_request.get_data());
 
                 res.set_content(status ? "sorry, port is not open" : req.body, "text/plain");
                 last_request = req.body;
@@ -72,10 +72,8 @@ int main(int argc, char const *argv[])
                                                                             << req.remote_addr << "\t" 
                                                                             << "status: " << status << "\n";
                 
-                unsigned char data = arduino.read();
-                for (int i{7}; i >= 0; --i) {
-                    std::cout << ((data >> i) & 1);
-                } std::cout << "\n";
+                arduino_response.set_data(arduino.read());
+                arduino_response.print(); 
         }
     });
     
