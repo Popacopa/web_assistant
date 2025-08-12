@@ -67,6 +67,7 @@ int main(int argc, char const *argv[])
                     status = arduino.write(low);
                 }
                 
+                res.set_header("Access-Control-Allow-Origin", "*");
                 res.set_content(status ? "sorry, port is not open" : req.body, "text/plain");
                 last_request = req.body;
 
