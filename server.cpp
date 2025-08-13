@@ -66,16 +66,18 @@ int main(int argc, char const *argv[])
                 } else {
                     status = arduino.write(low);
                 }
+                //res.set_header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+                //res.set_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
                 
-                res.set_header("Access-Control-Allow-Origin", "*");
                 res.set_content(status ? "sorry, port is not open" : req.body, "text/plain");
+                
                 last_request = req.body;
 
                 last_status = status;
 
                                                                 LOGI << " POST " << req.body << "\t"
                                                                             << req.remote_addr << "\t" 
-                                                                            << "status: " << status << "\n";
+                                                                            << "arduino_state: " << status << "\n";
                 
                 unsigned char data = arduino.read();
                 for (int i{7}; i >= 0; --i) {
