@@ -7,15 +7,13 @@
 import axios from 'axios';
 
 const IP = window.location.hostname;
-//let btn = document.querySelector(".btn");
-//let body = document.getElementById('body');
 
 export default {
-  name: 'GggComp',
+  name: 'MainButton',
   data() {
     return {
       msg: 'OFF',
-      d: 0,
+      d: 0,                   
     }
   },
   methods : {
@@ -25,17 +23,13 @@ export default {
     async req() {
       try {
         this.set_data();
-        const response =  await axios.post(`http://${IP}:8000/api`, String(this.d), {
+        await axios.post(`http://${IP}:8000/api`, String(this.d), {
           headers: {
             'Content-Type': 'application/json',
           }
         });
         this.msg = (this.msg == 'ON' ? 'OFF' : 'ON');
-
-        //btn.classList.remove("errorbtn");
       } catch (error) {
-        //btn.classList.add("errorbtn");
-        //body.classList.add("errorbtn");
         console.error('Error during request:', error.response);
         this.msg = 'Error';
         return;

@@ -1,15 +1,15 @@
 
 
 <template> 
-    <GggComp />
+    <MainButton />
 </template>
 
 <script>
-import GggComp from './components/GggComp.vue';
+import MainButton from './components/MainButton.vue';
 export default {
   name: 'App',
   components: {
-    GggComp
+    MainButton
   },
 }
 </script>
